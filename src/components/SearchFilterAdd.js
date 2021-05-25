@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Select,  Space, InputNumber, Button, Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import {MENU_ENDPOINT, ORDER_ITEM_ENDPOINT} from "../helpers/endpoints";
+import {MENU_ENDPOINT} from "../helpers/endpoints";
 import {fetchData} from "../helpers/fetch-common.js";
 
 const { Option } = Select;
@@ -69,9 +69,6 @@ export default class SearchFilterAdd extends React.Component {
             values.qty = 1;
         }
         this.props.handleAddOrEditProduct(values.menu_id, values.qty);
-        console.log('Received values of form: ', values);
-        console.log('Received order date: ', this.props.order_items);
-
     };
 
     render() {

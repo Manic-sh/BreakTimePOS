@@ -51,8 +51,7 @@ class Products extends React.Component{
     }
 
     render() {
-        const {products} = this.state;
-        const {doneLoading} = this.state;
+
         return (
             <div>
                 <Result
