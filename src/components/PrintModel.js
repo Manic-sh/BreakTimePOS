@@ -10,12 +10,12 @@ export default class PrintModel extends React.Component {
         this.props.handleCloseKOT(action);
     }
     handleCloseModal = () => {
-        this.props.showModal(false);
+        this.props.showModal(false, "");
     }
     render() {
         const { order_items } = this.props;
         const { order_data } = this.props;
-        console.log( order_items);
+        const { action } = this.props;
 
         if (!this.props.show) {
             return null;
@@ -25,13 +25,13 @@ export default class PrintModel extends React.Component {
                     title="Order Details"
                     centered
                     visible={this.props.show}
-                    onOk={() => this.handleClose('CLOSE')}
+                    onOk={() => this.handleClose(action)}
                     onCancel={this.handleCloseModal}
                     footer={[
                         <Button key="back" onClick={this.handleCloseModal}>
                             Cancel
                         </Button>,
-                        <Button key="submit" type="primary" onClick={() => this.handleClose('CLOSE')}>
+                        <Button key="submit" type="primary" onClick={() => this.handleClose(action)}>
                             Ok
                       </Button>,
                         <ReactToPrint
@@ -47,6 +47,7 @@ export default class PrintModel extends React.Component {
                     <div ref={el => (this.componentRef = el)} >
                         <div className="print-kot-bill">
                             <Divider>BreakTime IN</Divider>
+                            <h5 style={{textAlign:'center', marginTop: -20}}>CIMS Hospital - Ahemdabad</h5>
                             <h4>Bill Number: {order_data.id} </h4>
                             <h4>Order Number: {order_data.title} </h4>
                             <h4>Date: {order_data.tag_timestamp} </h4>

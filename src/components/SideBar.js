@@ -20,6 +20,7 @@ export default class SideBar extends React.Component {
             modalPrintKot: false,
             show: false,
             loading: false,
+            action: "",
         }
     }
 
@@ -34,9 +35,6 @@ export default class SideBar extends React.Component {
 
     handleCloseKOT = (action) => {
         this.props.handleProductActions(action)
-    };
-    handleCloseBill = () => {
-        this.props.handleProductActions('PRINT')
     };
 
     handleBack = () => {
@@ -59,9 +57,10 @@ export default class SideBar extends React.Component {
         this.setState({ modalPrintKot });
     }
 
-    showModal = (show) => {
-        this.setState({ show });
+    showModal = (show, action) => {
+        this.setState({ show: show, action: action }); 
     }
+    
     render() {
         const { order_items } = this.props;
         const { order_data } = this.props;
@@ -72,7 +71,7 @@ export default class SideBar extends React.Component {
                         <h4 className='header'>
                             <SearchFilterAdd
                                 handleAddOrEditProduct={this.handleAddOrEditProduct}
-                                order_data={this.props.order_data}
+                                order_data={order_data}
                             />
                         </h4>
                     </Card>
@@ -104,10 +103,11 @@ export default class SideBar extends React.Component {
                     </Card>
                     <Card>
                         <Space size={[10, 8]} wrap>
-                            <Button style={{ width: 220 }} type="primary" onClick={() => this.showModal(true)}>Print KOT</Button>
-                            <Button style={{ width: 130 }} type="primary" onClick={() => this.showModal(true)}>Print Bill</Button>
+                            <Button style={{ width: 220 }} type="primary" onClick={() => this.showModal(true, "CLOSE")}>Print KOT</Button>
+                            <Button style={{ width: 130 }} type="primary" onClick={() => this.showModal(true, "PRINT")}>Print Bill</Button>
                             <PrintModel 
-                                show={this.state.show}    
+                                show={this.state.show}   
+                                action={this.state.action} 
                                 showModal={this.showModal} 
                                 order_data={this.props.order_data} 
                                 order_items={this.props.order_items} 
@@ -141,7 +141,6 @@ class OrderItem extends React.Component {
         this.props.changeQty('DELETE', this.props.item.id)
     };
 
-
     render() {
         const item = this.props.item;
         return (
@@ -156,7 +155,7 @@ class OrderItem extends React.Component {
                         <Button onClick={this.removeQty}>
                             <MinusOutlined />
                         </Button>
-                        <Button danager onClick={this.handleDeleteItem}>
+                        <Button onClick={this.handleDeleteItem}>
                             <DeleteOutlined />
                         </Button>
                     </ButtonGroup>

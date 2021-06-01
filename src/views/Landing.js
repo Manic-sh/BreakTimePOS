@@ -10,7 +10,7 @@ export default class Landing extends React.Component {
                         <div className="content">
                             <Row>
                                 <Col span={24}>
-                                    <div class="photo"></div>
+                                    <div className="photo"></div>
                                 </Col>     
                                 <Col span={24}>
                                     <div className="text">

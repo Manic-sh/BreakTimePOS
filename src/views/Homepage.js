@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Button, Card, Row, Col } from 'antd';
 import KOTCard from '../components/KOTCard.js';
 import { fetchData } from '../helpers/fetch-common.js'
 import { KOT_ENDPOINT, ORDERS_ENDPOINT } from '../helpers/endpoints.js';
 
-import AuthService from "../helpers/axios-services/auth-service";
-import axios from 'axios';
+import axiosInstance from '../helpers/axios-service';
 
 class Homepage extends React.Component {
 
@@ -17,9 +16,6 @@ class Homepage extends React.Component {
             kots: [],
             doneLoading: false,
             kot: undefined,
-            new_order: false,
-            new_order_id: '',
-            currentUser: AuthService.getCurrentUser()
         };
     }
 
@@ -32,58 +28,41 @@ class Homepage extends React.Component {
         this.getKOTs()
     };
 
-    newOrder = (id) => {
-        const thisComp = this;
-        const data = {
-            title: `KOT ${id}`,
-            kot: id,
-            active: true,
-        };
-        axios.post(ORDERS_ENDPOINT, data)
-            .then((response) => {
-                return response.data
-            })
-            .then((responseData) => {
-                thisComp.setState({
-                    new_order: true,
-                    new_order_id: responseData.id
-                })
-            })
-    };
-
     handleSubmit = event => {
         event.preventDefault();
-        const thisComp = this;
         const data = {
             is_settled: false,
             active: true,
         };
-        axios.post(KOT_ENDPOINT, data)
-            .then((resp) => {
-                return resp.data
-            })
-            .then((res) =>{
-                thisComp.newOrder(res.id);
+        axiosInstance.post(KOT_ENDPOINT, data)
+            .then(resp => {
+                if(resp.data){
+                    const newOrder = {
+                        title: `KOT ${resp.data.id}`,
+                        kot: resp.data.id,
+                        active: true,
+                    };
+                    axiosInstance.post(ORDERS_ENDPOINT, newOrder)
+                    .then(response => {
+                        const new_order_id = response.data.id;
+                        const new_url = `/order/${new_order_id}/`;
+                        this.props.history.push(new_url)
+                    })     
+                }
             })
     }
     componentDidMount() {
-            this.getKOTs();
-            setInterval(this.updateKOTs, 1000);  
+        this.getKOTs();
+        setInterval(this.updateKOTs, 1000);  
     }
     render() {
         const doneLoading = this.state.doneLoading;
         const kots = this.state.kots;
-        const { new_order } = this.state;
-
-        if (new_order) {
-            const new_url = `/order/${this.state.new_order_id}/`;
-            return <Redirect to={new_url} />
-        }
         return (
             <div>
                 <Card key={1}>
                     {doneLoading !== false ?
-                        <MyContainer key={323} kots={kots} newOrder={this.newOrder} />
+                        <MyContainer key={323} kots={kots} />
                         : <p>No data</p>
                     }
                 </Card>
@@ -106,16 +85,14 @@ class MyContainer extends React.Component {
 
     render() {
         const { kots } = this.props;
-
         return (
-
             <div>
                 <Row>
                     <Col>
 
                         <Row>
                             {kots.map((kot, index) => (
-                                <KOTCard key={index} kot={kot} newOrder={this.props.newOrder} />
+                                <KOTCard key={index} kot={kot} />
                             ))
                             }
                         </Row>

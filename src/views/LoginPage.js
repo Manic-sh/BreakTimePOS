@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 import { Row, Col, Card, Form, Input, Button, Avatar, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import AuthService from "../helpers/axios-services/auth-service";
+import AuthService from "../helpers/auth-service";
+
 
 export default class Login extends Component {
   constructor(props) {
@@ -52,7 +53,6 @@ export default class Login extends Component {
   onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
 
   render() {
     return (

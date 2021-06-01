@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Result } from 'antd';
 import {MENU_ENDPOINT, CATEGORYS_ENDPOINT} from "../helpers/endpoints.js";
-import {fetchData} from "../helpers/fetchdata.js";
+import {fetchData} from "../helpers/fetch-common.js";
 
 
 class Products extends React.Component{

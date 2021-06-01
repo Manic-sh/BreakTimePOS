@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AuthService from "../helpers/axios-services/auth-service.js";
+import AuthService from "../helpers/auth-service.js";
 
 export default class Profile extends Component {
   constructor(props) {

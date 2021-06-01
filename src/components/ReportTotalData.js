@@ -1,10 +1,9 @@
 import React from 'react';
-import {Statistic} from 'antd';
-import Filters from "../components/Filters";
+import { Statistic } from 'antd';
 
-export default class ReportTotalData extends React.Component{
+export default class ReportTotalData extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             toggleForm: false
@@ -18,42 +17,24 @@ export default class ReportTotalData extends React.Component{
         })
     };
 
-    handleSelectedCategories = (selected_categories) => {
-        this.props.handleSelectedCategories(selected_categories);
-        this.props.updateReport(selected_categories)
-    };
-
-    handleClearFilters = () => {
-        this.props.handleClearFilters()
-    };
-
-    render(){
-        const statusContent = (
+    render() {
+        return (
             <div
-              style={{
-                display: 'flex',
-                width: 'max-content',
-                justifyContent: 'flex-end',
-              }}
-            >
-              <Statistic
-                title="Daily Average Sale"
-                value={this.props.reports.avg}
                 style={{
-                  marginRight: 32,
+                    display: 'flex',
+                    width: 'max-content',
+                    justifyContent: 'flex-end',
                 }}
-              />
-              <Statistic title="Total Sale" value={this.props.reports.total} />
+            >
+                <Statistic
+                    title="Daily Average Sale"
+                    value={this.props.reports.avg}
+                    style={{
+                        marginRight: 32,
+                    }}
+                />
+                <Statistic title="Total Sale" value={this.props.reports.total} />
             </div>
-        );
-        const filterContent = (
-            <Filters
-                categories={this.props.categories}
-                handleSelectedCategories={this.handleSelectedCategories}
-                clearFilters={this.handleClearFilters}
-            />
-        );
-        return statusContent;
+        )
     }
-
 }

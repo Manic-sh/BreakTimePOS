@@ -1,10 +1,10 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
-import axios from 'axios';
+import axiosInstance from '../helpers/axios-service';
 import { Layout, Spin } from 'antd';
 
-import { KOT_DETAIL_ENDPOINT, ORDER_ITEMS_ENDPOINT, ORDER_ENDPOINT } from '../helpers/endpoints.js';
+import { KOT_ENDPOINT, ORDERS_ENDPOINT, KOT_DETAIL_ENDPOINT, ORDER_ITEMS_ENDPOINT, ORDER_ENDPOINT } from '../helpers/endpoints.js';
 import { fetchData, postQtyChange, addOrEditProduct } from '../helpers/fetch-common.js';
 
 import SideBar from '../components/SideBar.js';
@@ -16,14 +16,13 @@ class Order extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected_categories: [],
             order_data: '',
             order_items: [],
             order_id: '',
-            doneLoading: false
+            doneLoading: false,
+            new_order: false,
         }
     }
-
     getOrderItems(id) {
         const endpoint = ORDER_ITEMS_ENDPOINT + '?order_related=' + id;
         const thisComp = this;
@@ -33,7 +32,7 @@ class Order extends React.Component {
     getOrder(id) {
         const endpoint = ORDER_ENDPOINT + id + '/';
         const thisComp = this;
-        fetchData(endpoint, thisComp, 'order_data', false);
+        fetchData(endpoint, thisComp, 'order_data', true);
     }
 
     changeQty = (action, item_id) => {
@@ -61,19 +60,40 @@ class Order extends React.Component {
         const endpoint = ORDER_ENDPOINT + order.id + '/';
         switch (action) {
             case 'CLOSE':
-                axios.put(endpoint, data)
+                axiosInstance.put(endpoint, data)
                     .then(resp => resp.data)
                     .then(repsData => {
-                        thisComp.props.history.push('/homepage')
+                        thisComp.props.history.push('/homepage');
                     })
                 break;
             case 'PRINT':
-                axios.put(endpoint, data)
+                axiosInstance.put(endpoint, data)
                     .then(resp => resp.data)
                     .then(
                         function (repsData) {
-                            axios.put(kot_endpoint, kotUpdate).then(res => {
-                                thisComp.props.history.push('/homepage')
+                            axiosInstance.put(kot_endpoint, kotUpdate).then(res => {
+                                const new_kot = {
+                                    is_settled: false,
+                                    active: true,
+                                };
+                                axiosInstance.post(KOT_ENDPOINT, new_kot)
+                                    .then((resp) => {
+                                        const kot_id = resp.data.id;
+                                        const new_order = {
+                                            title: `KOT ${kot_id}`,
+                                            kot: kot_id,
+                                            active: true,
+                                        };
+                                        axiosInstance.post(ORDERS_ENDPOINT, new_order)
+                                            .then((response) => {
+                                                console.log(response.data);
+                                                thisComp.setState({
+                                                    order_id: response.data.id,
+                                                    new_order: true
+                                                });
+                                                
+                                            })
+                                    })
                             })
                         })
                 break;
@@ -87,32 +107,39 @@ class Order extends React.Component {
         this.getOrder(id);
         this.getOrderItems(id);
     }
-
     render() {
+        const { new_order } = this.state;
+        if (new_order) {
+            const new_url = `/order/${this.state.order_id}/`;
+            window.location.reload();
+            return <Redirect to={new_url} />
+        }
         return (
             <div>
-                {this.state.doneLoading ?
-                    <Layout>
-                        <Content>
-                                <ProductGrid
-                                    handleSelectedCategories={this.handleSelectedCategories}
-                                    handleAddOrEditProduct={this.handleAddOrEditProduct}
-                                />
-                        </Content>
-                        <Sider width={600} className="site-layout-background">
-                                <SideBar
-                                    order_data={this.state.order_data}
-                                    order_items={this.state.order_items}
-                                    handleProductActions={this.handleProductActions}
-                                    handleAddOrEditProduct={this.handleAddOrEditProduct}
-                                    changeQty={this.changeQty}
-                                />
-                        </Sider>
-                    </Layout>
-                    : <div className="spinner">
-                        <Spin />
-                    </div>
-                }
+                <Layout>
+                    <Content>
+                        {this.state.doneLoading ?
+                            <ProductGrid
+                                handleSelectedCategories={this.handleSelectedCategories}
+                                handleAddOrEditProduct={this.handleAddOrEditProduct}
+                            />
+                            : <div className="spinner">
+                                <Spin />
+                            </div>
+                        }
+
+                    </Content>
+
+                    <Sider width={600} className="site-layout-background">
+                        <SideBar
+                            order_data={this.state.order_data}
+                            order_items={this.state.order_items}
+                            handleProductActions={this.handleProductActions}
+                            handleAddOrEditProduct={this.handleAddOrEditProduct}
+                            changeQty={this.changeQty}
+                        />
+                    </Sider>
+                </Layout>
             </div>
         )
     }

@@ -11,18 +11,11 @@ import Profile from "./views/Profile.js";
 import { Layout } from 'antd';
 import './App.css';
 import MyNavBar from './components/Navbar.js';
-import AuthService from "./helpers/axios-services/auth-service";
+import AuthService from './helpers/auth-service';
 
-
-const { Footer, Content } = Layout;
+const { Content } = Layout;
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentUser: AuthService.getCurrentUser()
-    };
-  }
   
   render() {
     return (
@@ -38,20 +31,22 @@ class App extends React.Component {
             }}
           >
             <Switch key='01'>
-              <Route exact path={["/", "/landing"]} component={Landing} />
-              <Route key="001" exact path="/login" component={Login} />
-              <Route key='002' exact path="/order/:id/" component={Order} />
-              <Route key='003' exact path="/reports/" component={Report} />
-              <Route key='004' exact path="/homepage/" component={Homepage} />
-              <Route key='005' exact path="/products/" component={Product} />
-              <Route key='006' exact path="/profile/" component={Profile} />
+               {AuthService.userLoggedIn() &&  (
+                 <>
+                              <Route  exact path="/order/:id/" component={Order} />
+                              <Route  exact path="/reports/" component={Report} />
+                              <Route  exact path="/homepage/" component={Homepage} />
+                              <Route  exact path="/products/" component={Product} />
+                              <Route  exact path="/profile/" component={Profile} />
+                </>
+               )}
+               <Route exact path={["/", "/landing"]} component={Landing} />
+               <Route  exact path="/login" component={Login} />  
             </Switch>
           </Content>
         </Layout>
-        <Footer className="footer">BreakTime ©2021 Created by Rightpass.tech</Footer>
       </BrowserRouter>
     )
   }
 }
-
 export default App;

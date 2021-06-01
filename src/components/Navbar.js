@@ -3,33 +3,18 @@ import { Link } from 'react-router-dom';
 
 import { Menu, Dropdown, Space } from 'antd';
 import { LoginOutlined, UserOutlined } from '@ant-design/icons';
-import AuthService from "../helpers/axios-services/auth-service";
+import AuthService from "../helpers/auth-service";
 
 import Logo from '../logo.png';
 
 export default class MyNavbar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentUser: undefined,
-    };
-  }
-
-  componentDidMount() {
-    const user = AuthService.getCurrentUser();
-    if (user) {
-      this.setState({
-        currentUser: user,
-      });
-    }
-  }
 
   logOut() {
     AuthService.logout();
   }
 
   render() {
-    const { currentUser } = this.state;
+    const currentUsername  = AuthService.userLoggedIn();
     const menu = (
       <Menu>
         <Menu.Item key="1">
@@ -58,17 +43,20 @@ export default class MyNavbar extends React.Component {
 
     return (
       <div className="menu">
-        <img src={Logo} alt="BreakTime" />
-        {currentUser ? (
+       <img src={Logo} alt="BreakTime" />
+        {currentUsername ? (
           <div className="user-account">
             <Space wrap>
               <Dropdown.Button overlay={menu} placement="bottomCenter" icon={<UserOutlined />}>
-                {localStorage.getItem('username')}
+              {currentUsername}
               </Dropdown.Button>
             </Space>
           </div>
         ) : (
+          <>
           <a href="/login">Login &nbsp; <LoginOutlined /> </a>
+          <a href="/">Home</a>
+          </>
         )}
       </div>
 

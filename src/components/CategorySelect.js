@@ -34,19 +34,19 @@ class CategorySelect extends React.Component {
             selected_categories: id
         });
         this.props.handleSelectedCategories(id);
-        console.log(this.state);
     };
 
     render() {
         const categories = this.state.categories;
         return (
             <Form
-                style={{ marginTop: 50 }}
+                style={{ marginTop: 15 }}
             >
                 <Button type="primary" onClick={this.handleClear} danger>Clear Filters</Button>
                 <Card clicked>
                     {categories.map((category, index) => (
                         <CardButton
+                            key={index}
                             field={category}
                             handleSelectedCategories={this.handleSelectedCategories}
                             clicked={category.id === this.state.selected_categories ? true : false}

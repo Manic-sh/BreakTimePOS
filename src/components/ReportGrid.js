@@ -18,7 +18,6 @@ class ReportGrid extends React.Component{
         orders: PropTypes.array
   };
 
-
   getColumnSearchProps = dataIndex => ({
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
         <div style={{ padding: 8 }}>
@@ -142,7 +141,7 @@ class ReportGrid extends React.Component{
         const orders = this.props.orders;
         return(
           <>
-           <Table dataSource={orders} columns={columns} size="small" pagination={{ pageSize: 40 }} scroll={{ y: 240 }} />
+           <Table dataSource={orders} columns={columns} size="small" pagination={{ pageSize: 40 }} scroll={{ y: 440 }} />
           </>
         )
     }

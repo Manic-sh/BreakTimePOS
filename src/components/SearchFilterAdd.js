@@ -48,7 +48,7 @@ export default class SearchFilterAdd extends React.Component {
     };
     
     handleChange = value => {
-       console.log( this.setState({ value }));
+       this.setState({ value });
     };
 
     handleChangeQty = qty =>  {
@@ -73,7 +73,7 @@ export default class SearchFilterAdd extends React.Component {
 
     render() {
         const options = this.state.products.map(d => <Option key={d.id}><Space><span>{d.title}</span><span>{d.tag_value}</span></Space></Option>);
-        
+
         return (   
             <Space direction="horizontal">
                 <Form
@@ -82,15 +82,17 @@ export default class SearchFilterAdd extends React.Component {
                     className="ant-advanced-search-form"
                     onFinish={this.onFinish}
                 >
-                <Form.Item name="menu_id">
+                <Form.Item name="menu_id" >
                     <Select
                         showSearch
+                        optionLabelProp="children"
                         placeholder="Search Menu..."
                         style={{width: 280}}
-                        filterOption={false}
                         onSearch={this.handleSearch}
                         onChange={this.handleChange}
+                        filterOption={true}
                         notFoundContent={null}
+                        optionFilterProp="children"
                     >
                         {options}
                     </Select>

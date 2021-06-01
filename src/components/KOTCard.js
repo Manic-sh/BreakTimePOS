@@ -4,16 +4,12 @@ import PropTypes from 'prop-types';
 import { EditOutlined, CloseOutlined, PrinterOutlined } from '@ant-design/icons';
 import { Button, Col, Card, message } from 'antd'
 import { KOT_DETAIL_ENDPOINT, ORDER_ENDPOINT } from '../helpers/endpoints.js';
-import axios from 'axios';
+import axiosInstance from '../helpers/axios-service';
 
 export default class KOTCard extends React.Component {
 
     static propTypes = {
         kot: PropTypes.object
-    };
-
-    handleNewOrder = () => {
-        this.props.newOrder(this.props.kot.id)
     };
 
     handleCloseOrder = () => {
@@ -28,14 +24,13 @@ export default class KOTCard extends React.Component {
         }
         const endpoint = ORDER_ENDPOINT + this.props.kot.active_order_id + '/';
         const kot_endpoint = KOT_DETAIL_ENDPOINT + this.props.kot.id + '/';
-        axios.put(endpoint, data)
+        axiosInstance.put(endpoint, data)
         .then((resp) => {
-            axios.put(kot_endpoint, kotUpdate).then(res => {
+            axiosInstance.put(kot_endpoint, kotUpdate).then(res => {
                 console.log("Order Closed Successfully!");
             })
             
         })
-        console.log(kot_endpoint);
     };
     handlePrintBill = () => {
         message.info('Print Bill');

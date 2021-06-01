@@ -1,12 +1,14 @@
 import React from 'react';
-import { PageHeader, Tabs, Dropdown, message, Layout, Card, Menu, Spin } from 'antd';
+import Moment from 'moment';
+import { PageHeader, Tabs, Dropdown, message, Layout, Menu, Spin } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { fetchData } from '../helpers/fetch-common.js'
 import { withRouter } from "react-router-dom";
 import ReportGrid from '../components/ReportGrid.js'
 import ReportTotalData from "../components/ReportTotalData";
 import { ORDER_REPORT_ENDPOINT, KOT_ENDPOINT, ORDERS_ENDPOINT } from "../helpers/endpoints";
-import axios from 'axios';
+import axiosInstance from '../helpers/axios-service';
+import { CSVLink } from "react-csv";
 
 
 const { Content } = Layout;
@@ -30,26 +32,24 @@ class Report extends React.Component {
         }
     }
 
-    getOrders(endpoint, type_ = false) {
+    getAllOrders() {
         const thisComp = this;
-        fetchData(endpoint, thisComp, 'orders', type_)
+        fetchData(ORDERS_ENDPOINT, thisComp, 'orders', true)
     }
 
     getKots() {
-        const endpoint = KOT_ENDPOINT;
         const thisComp = this;
-        fetchData(endpoint, thisComp, 'kots', true)
+        fetchData(KOT_ENDPOINT, thisComp, 'kots', true)
     }
 
 
-    getReports(endpoint) {
+    async getReports(endpoint) {
         const thisComp = this;
-        axios.get(endpoint).then(
-            function (reps) {
+        axiosInstance.get(endpoint)
+            .then(reps => {
                 return reps.data
-            }
-        ).then(
-            function (responseData) {
+            })
+            .then(responseData => {
                 const reports = {
                     total: responseData.total,
                     count: responseData.count,
@@ -59,17 +59,17 @@ class Report extends React.Component {
                     reports: reports
                 })
             }
-        )
+            )
     }
 
     handleClearFilters = () => {
         this.componentDidMount()
     };
 
-    updateReport = (selected_category) => {
-        const endpoint = ORDER_REPORT_ENDPOINT + '?kot=' + selected_category;
+    updateReport (period) {
+        const endpoint = ORDER_REPORT_ENDPOINT + "?tag_timestamp=2021-06-01 20:52:46";
         this.getReports(endpoint)
-    };
+    }
 
     handleSelectedCategories = (selectedCategories) => {
         if (selectedCategories) {
@@ -77,34 +77,56 @@ class Report extends React.Component {
             this.getOrders(endpoint)
         }
     };
+    handleTabChange(e) {
+      /*  if(e == 2){
+            this.updateReport("2021-06-01 20:52:46");
+        }else if(e == 3){
 
-    componentDidMount() {
-        this.getOrders(ORDERS_ENDPOINT, false);
-        this.getReports(ORDER_REPORT_ENDPOINT);
-        this.getKots();
-    }
+        }else{
 
-    handleButtonClick(e) {
-        message.info('Click on left button.');
-        console.log('click left button', e);
+        } */
+        message.info("No access!!!")
     }
 
     handleMenuClick(e) {
         message.info('Click on menu item.');
-        console.log('click', e);
     }
+
+    componentDidMount() {
+        this.getAllOrders();
+        this.getReports(ORDER_REPORT_ENDPOINT);
+        this.getKots();
+    }
+
     render() {
+        //const pos_month = format(startDate, 'L')
+        const { orders } = this.state;
+        const today = Moment().format('YYYY-MM-DD');
+        const thisMonth = Moment().format('YYYY-MM');
+        const thisWeek = Moment().format('GGGG-[W]WW');
+        const thisYear = Moment().format('YYYY');
+        const daily_orders = orders.filter(order => Moment(order.tag_timestamp).format('YYYY-MM-DD') === today);
+        const weekly_orders = orders.filter(order => Moment(order.tag_timestamp).format('GGGG-[W]WW') === thisWeek);
+        const monthly_orders = orders.filter(order => Moment(order.tag_timestamp).format('YYYY-MM') === thisMonth);
+        const yearly_orders = orders.filter(order => Moment(order.tag_timestamp).format('YYYY') === thisYear);
+
         const menu = (
             <Menu onClick={this.handleMenuClick}>
                 <Menu.Item key="1" icon={<DownloadOutlined />}>
-                    Daily
-              </Menu.Item>
+                    <CSVLink data={daily_orders}> Daily </CSVLink>
+                </Menu.Item>
                 <Menu.Item key="2" icon={<DownloadOutlined />}>
-                    Weekly
-              </Menu.Item>
+                    <CSVLink data={weekly_orders}> Weekly </CSVLink>
+                </Menu.Item>
                 <Menu.Item key="3" icon={<DownloadOutlined />}>
-                    Monthly
-              </Menu.Item>
+                    <CSVLink data={monthly_orders}> Monthly </CSVLink>
+                </Menu.Item>
+                <Menu.Item key="3" icon={<DownloadOutlined />}>
+                    <CSVLink data={yearly_orders}> Yearly </CSVLink>
+                </Menu.Item>
+                <Menu.Item key="4" icon={<DownloadOutlined />}>
+                    <CSVLink data={orders}> All </CSVLink>
+                </Menu.Item>
             </Menu>
         );
         return (
@@ -117,29 +139,38 @@ class Report extends React.Component {
                 extra={[
                     <Dropdown.Button overlay={menu} icon={<DownloadOutlined />}>
                         Download
-                            </Dropdown.Button>
+                    </Dropdown.Button>
                 ]}
                 footer={
 
-                    <Tabs defaultActiveKey="1" centered>
-
-                        <TabPane tab="All Sale" key="1">
-
+                    <Tabs defaultActiveKey="1" centered onChange={this.handleTabChange}>
+                        <TabPane tab="Daily" key="1">
                             {this.state.doneLoading ?
-                                <Card>
-                                    <ReportGrid orders={this.state.orders} />
-                                </Card>
-
+                                <div>
+                                    <ReportGrid orders={daily_orders} />
+                                </div>
                                 :
                                 <div className="spinner">
                                     <Spin />
                                 </div>
                             }
-
                         </TabPane>
-
-                        <TabPane tab="Daily" key="2" />
-                        <TabPane tab="Monthly" key="3" />
+                        <TabPane tab="Monthly" key="2" >
+                            <div>
+                                <ReportGrid orders={monthly_orders} />
+                            </div>
+                        </TabPane>
+                        <TabPane tab="All Sale" key="3" >
+                            {this.state.doneLoading ?
+                                <div>
+                                    <ReportGrid orders={orders} />
+                                </div>
+                                :
+                                <div className="spinner">
+                                    <Spin />
+                                </div>
+                            }
+                        </TabPane>
 
                     </Tabs>
 
@@ -147,11 +178,7 @@ class Report extends React.Component {
             >
                 <Content>
                     <ReportTotalData
-                        categories={this.state.kots}
-                        handleSelectedCategories={this.handleSelectedCategories}
-                        updateReport={this.updateReport}
                         reports={this.state.reports}
-                        handleClearFilters={this.handleClearFilters}
                     />
                 </Content>
             </PageHeader>
@@ -159,5 +186,4 @@ class Report extends React.Component {
     }
 
 }
-
 export default withRouter(Report);
