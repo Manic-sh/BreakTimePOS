@@ -60,7 +60,7 @@ class Products extends React.Component{
                     subTitle="Sorry, the page you visited does not exist."
                     extra={
                         <Link to={{
-                            pathname: `/`
+                            pathname: `/homepage`
                             }}>
                            <Button type='primary'>Back Home</Button>
                        </Link>

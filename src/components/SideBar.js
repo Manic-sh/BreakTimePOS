@@ -66,14 +66,11 @@ export default class SideBar extends React.Component {
         const { order_data } = this.props;
         return (
             <div>
-                <Card>
                     <Card>
-                        <h4 className='header'>
-                            <SearchFilterAdd
+                        <SearchFilterAdd
                                 handleAddOrEditProduct={this.handleAddOrEditProduct}
                                 order_data={order_data}
-                            />
-                        </h4>
+                        />
                     </Card>
                     <div className="item-infinite-container">
                         <InfiniteScroll
@@ -101,9 +98,9 @@ export default class SideBar extends React.Component {
                             <Descriptions.Item label="Total">{order_data.tag_value}</Descriptions.Item>
                         </Descriptions>
                     </Card>
-                    <Card>
+                    <Card style={{marginTop: 20}}>
                         <Space size={[10, 8]} wrap>
-                            <Button style={{ width: 220 }} type="primary" onClick={() => this.showModal(true, "CLOSE")}>Print KOT</Button>
+                            <Button style={{ width: 160 }} type="primary" onClick={() => this.showModal(true, "CLOSE")}>Print KOT</Button>
                             <Button style={{ width: 130 }} type="primary" onClick={() => this.showModal(true, "PRINT")}>Print Bill</Button>
                             <PrintModel 
                                 show={this.state.show}   
@@ -116,7 +113,7 @@ export default class SideBar extends React.Component {
                             <Button style={{ width: 130 }} type="primary" onClick={this.handleBack} danger>Back </Button>
                         </Space>
                     </Card>
-                </Card>
+              
             </div>
         )
     }

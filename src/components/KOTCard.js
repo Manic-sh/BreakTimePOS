@@ -41,10 +41,10 @@ export default class KOTCard extends React.Component {
         const { kot } = this.props;
 
         return (
-            <>
-                <Col>
+            <>   
                     {kot.active ?
                         <Card
+                            style={{margin: 2}}
                             actions={[
                                 <PrinterOutlined onClick={this.handlePrintBill} />,
                                 <CloseOutlined onClick={this.handleCloseOrder} />,
@@ -54,13 +54,12 @@ export default class KOTCard extends React.Component {
                             <Link to={{
                                 pathname: `/order/${kot.active_order_id}/`
                             }}>
-                                <Button type='primary' icon={<EditOutlined />}>Details {kot.active_order_id} </Button>
+                                <Button type='primary' size="small" icon={<EditOutlined />}>Details {kot.active_order_id} </Button>
                             </Link>
                         </Card>
                         : ''
 
                     }
-                </Col>
             </>
         )
     }

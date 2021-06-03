@@ -59,14 +59,16 @@ class Homepage extends React.Component {
         const doneLoading = this.state.doneLoading;
         const kots = this.state.kots;
         return (
-            <div>
+            <div style={{
+                margin: 10,
+            }}>
                 <Card key={1}>
                     {doneLoading !== false ?
                         <MyContainer key={323} kots={kots} />
                         : <p>No data</p>
                     }
                 </Card>
-                <div>
+                <div style={{marginTop: 20}}>
                     <Card className="new-order-card">
                         <Button type='primary' size='large' onClick={this.handleSubmit} color='success'>New Order </Button>
                     </Card>
@@ -88,15 +90,10 @@ class MyContainer extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col>
-
-                        <Row>
-                            {kots.map((kot, index) => (
-                                <KOTCard key={index} kot={kot} />
-                            ))
-                            }
-                        </Row>
-                    </Col>
+                    {kots.map((kot, index) => (
+                        <KOTCard key={index} kot={kot} />
+                    ))
+                    }
                 </Row>
             </div>
 

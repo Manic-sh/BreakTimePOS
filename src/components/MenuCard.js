@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CategorySelect from './CategorySelect.js';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import { fetchData } from "../helpers/fetch-common.js";
 import { CATEGORYS_ENDPOINT, MENU_ENDPOINT } from "../helpers/endpoints";
 
-import { Skeleton, Card, Avatar } from 'antd';
+import { Card, Avatar } from 'antd';
 
 
 const { Meta } = Card;
@@ -67,11 +68,17 @@ export default class ProductGrid extends React.Component {
         if (categories.length > 0) {
             return (
                 <div>
-                    <MenuCard
-                        products={this.state.products}
-                        handleAddOrEditProduct={this.handleAddOrEditProduct}
+                    <InfiniteScroll
+                        dataLength={this.state.products.length}
+                        loader={<h4>Loading...</h4>}
+                        height={470}
+                    >   
+                        <MenuCard
+                            products={this.state.products}
+                            handleAddOrEditProduct={this.handleAddOrEditProduct}
 
-                    />
+                        />
+                    </InfiniteScroll> 
                     <CategorySelect
                         categories={categories}
                         handleSelectedCategories={this.handleSelectedCategories}
@@ -107,12 +114,12 @@ class MenuCard extends React.Component {
     render() {
         const products = this.props.products;
         const gridStyle = {
-            width: '16.5%',
-            textAlign: 'center',
+            width: '25%',
+            textAlign: 'right',
             padding: '10px',
         };
         return (
-            <Card>
+            <Card className="menu-card">
                 {products.map((product, index) => (
                     <Card.Grid hoverable={true}
                         style={gridStyle}
@@ -143,19 +150,17 @@ class ProductCardItem extends React.Component {
     render() {
         const { product } = this.props;
         return (
-            <Skeleton loading={false} avatar active>
                 <Card
-                    style={{ padding: 8 }}
+                    style={{ padding: 8, border: 'none' }}
                     onClick={this.addProduct}>
                     <Meta
                         avatar={<Avatar src="https://i1.wp.com/www.raynauds.org/wp-content/uploads/2019/07/Cold-Drink.jpg?resize=272%2C300&ssl=1" />}
                         description={product.tag_value}
                     /><br />
-                    <div className="additional">
+                    <div className="additional" style={{textAlign:'left'}}>
                         <p className="title">{product.title}</p>
                     </div>
                 </Card>
-            </Skeleton>
         )
     }
 }

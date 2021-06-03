@@ -87,7 +87,7 @@ export default class SearchFilterAdd extends React.Component {
                         showSearch
                         optionLabelProp="children"
                         placeholder="Search Menu..."
-                        style={{width: 280}}
+                        style={{width: 220}}
                         onSearch={this.handleSearch}
                         onChange={this.handleChange}
                         filterOption={true}

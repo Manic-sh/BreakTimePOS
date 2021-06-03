@@ -117,7 +117,7 @@ class Order extends React.Component {
         return (
             <div>
                 <Layout>
-                    <Content>
+                    <Content style={{margin:10}}>
                         {this.state.doneLoading ?
                             <ProductGrid
                                 handleSelectedCategories={this.handleSelectedCategories}
@@ -130,7 +130,7 @@ class Order extends React.Component {
 
                     </Content>
 
-                    <Sider width={600} className="site-layout-background">
+                    <Sider width={500} className="site-layout-background" style={{margin:10}}>
                         <SideBar
                             order_data={this.state.order_data}
                             order_items={this.state.order_items}

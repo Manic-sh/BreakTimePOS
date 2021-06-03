@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,800');
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Nunito Sans', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,14 +17,12 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #F1F1F1;
+  font-family: 'Nunito Sans', 'Roboto', sans-serif;
 }
 
 .card {
   width: 100%;
   height: 700px;
-  background-color: white;
-  box-shadow: 0px 50px 100px rgba(0, 0, 0, .4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,15 +40,15 @@ code {
 .menu {
   width: 100%;
   height: 10%;
-  background-color: #000;
 }
-
+.menu-card{
+  border: none;
+}
 .menu a {
   float: right;
   font-size: 1em;
   margin: 20px 25px;
   font-weight: 600;
-  color:#fe864c;
   text-decoration: none;
   transition: background-color 0.2s;
   transition: color 0.2s;
@@ -69,7 +65,6 @@ code {
   text-align: center;
   align-items: center;
   justify-content: center;
-  background-color: rgba(104, 121, 128, 0.3);
 }
 
 .content .image{
@@ -86,7 +81,6 @@ code {
   font-weight: 800;
 }
 .text p {
-  color: rgb(0,0,0,0.8);
   margin-bottom: 40px;
   margin-top: -5px;
   font-weight: 400;
@@ -94,9 +88,7 @@ code {
 
 .text a {
   font-weight: 600;
-  color: white;
   text-decoration: none;
-  background-color: #000;
   transition: background-color 0.2s;
   transition: color 0.2s;
   padding: 10px 20px;
@@ -104,8 +96,6 @@ code {
 
 .text a:hover, .text a:active {
   background-color: rgba(104, 121, 128, 0.3);
-  color: #02475e;
-  border: 2px solid #02475e;
 }
 
 .photo {
@@ -143,34 +133,27 @@ code {
 }
 .login-form-card {
   width: 390px;
-  background: #fff;
   border-radius: 10px;
   overflow: hidden;
   padding: 77px 55px 33px;
   text-align: center;
-  box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
-  -moz-box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
-  -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
-  -o-box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
-  -ms-box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
 }
 .login-form{
   margin-top: 80px !important;
 } 
-.site-layout-background {
-  background: #fff;
+
+.new-order-card{
+  margin-top: 100px;
 }
 .new-order-card Button {
   height: 64px;
 }
 
 .item-infinite-container {
-  height: 350px;
-  padding: 8px 24px;
+  height: 462px;
+  padding: 0 24px;
   overflow: auto;
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
-  margin-bottom: 50px;
+  border-radius: 10px;
 }
 .item-loading-container {
   position: absolute;
@@ -188,7 +171,6 @@ code {
   margin: 20px 0;
   padding: 300px 300px;
   text-align: center;
-  background: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
 }
 
@@ -226,11 +208,15 @@ code {
 .brkt-hero Image{
   border-radius: 15px;
 }
+
+.category-container-card .ant-card-body{
+  padding: 0 !important;
+}
+
 .footer{
   text-align: center;
   margin-top: 1rem;
   padding: 0.5rem !important;
-  background-color: rgba(0, 0, 0, 0.03) !important;
   position: fixed;
   bottom: 0;
   left: 0;

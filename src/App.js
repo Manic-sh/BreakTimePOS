@@ -8,8 +8,10 @@ import Landing from "./views/Landing.js";
 import Login from "./views/LoginPage.js";
 import Profile from "./views/Profile.js";
 
+
 import { Layout } from 'antd';
-import './App.css';
+
+
 import MyNavBar from './components/Navbar.js';
 import AuthService from './helpers/auth-service';
 

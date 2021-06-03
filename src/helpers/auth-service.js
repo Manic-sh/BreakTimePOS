@@ -9,7 +9,6 @@ class AuthService {
         .post(API_URL + "token/obtain/", { username, password })
         .then(response => {
             if (response.data.access) {
-              localStorage.setItem("username", username);
               localStorage.setItem('access_token', response.data.access);
               localStorage.setItem('refresh_token', response.data.refresh);
               axiosInstance.defaults.headers['Authorization'] =
@@ -20,9 +19,13 @@ class AuthService {
       );
     }
     logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
+      const response = axiosInstance.post('logout/blacklist/', {
+        refresh_token: localStorage.getItem('refresh_token'),
+      });
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
       localStorage.removeItem("username");
+      axiosInstance.defaults.headers['Authorization'] = null;
     }
   
     register(username, email, password) {

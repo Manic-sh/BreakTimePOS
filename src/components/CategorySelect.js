@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Card } from 'antd';
 
-
+import InfiniteScroll from "react-infinite-scroll-component";
 
 class CategorySelect extends React.Component {
 
@@ -43,16 +43,22 @@ class CategorySelect extends React.Component {
                 style={{ marginTop: 15 }}
             >
                 <Button type="primary" onClick={this.handleClear} danger>Clear Filters</Button>
-                <Card clicked>
-                    {categories.map((category, index) => (
-                        <CardButton
-                            key={index}
-                            field={category}
-                            handleSelectedCategories={this.handleSelectedCategories}
-                            clicked={category.id === this.state.selected_categories ? true : false}
-                        />
-                    ))}
-                </Card>
+                <InfiniteScroll
+                        dataLength={categories.length}
+                        loader={<h4>Loading...</h4>}
+                        height={215}
+                     >  
+                    <Card className="category-container-card" clicked>
+                        {categories.map((category, index) => (                       
+                            <CardButton
+                                key={index}
+                                field={category}
+                                handleSelectedCategories={this.handleSelectedCategories}
+                                clicked={category.id === this.state.selected_categories ? true : false}
+                            />
+                        ))}
+                    </Card>
+                </InfiniteScroll>
             </Form>
         )
     }
@@ -79,7 +85,7 @@ class CardButton extends React.Component {
         const gridStyle = {
             width: '25%',
             textAlign: 'center',
-            backgroundColor: '#08979c',
+            backgroundColor: '#0d7377',
         };
         return (
             <Card.Grid style={gridStyle} onClick={this.handleChange} >{field.title}</Card.Grid>
