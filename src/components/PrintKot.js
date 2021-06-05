@@ -15,12 +15,11 @@ export default  class PrintKOT extends React.Component {
             <List.Item
                 key={item.id}
             >
-                <List.Item.Meta
+                <List.Item.Meta style={{color: 'black'}}
                     title={item.tag_menu_related}
                 />
-                <div>
+                <div style={{color:'black'}}>
                     {item.qty}
-                    <span> x </span>
                     {item.tag_value}
                     <span>      = </span>
                     {item.tag_total_value}

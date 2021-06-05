@@ -46,7 +46,7 @@ class CategorySelect extends React.Component {
                 <InfiniteScroll
                         dataLength={categories.length}
                         loader={<h4>Loading...</h4>}
-                        height={215}
+                        height={145}
                      >  
                     <Card className="category-container-card" clicked>
                         {categories.map((category, index) => (                       

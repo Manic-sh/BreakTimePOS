@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,800');
 body {
   margin: 0;
-  font-family: 'Nunito Sans', 'Roboto', sans-serif;
+  font-family: 'Nunito Sans', 'Open Sans', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -48,6 +48,7 @@ code {
   float: right;
   font-size: 1em;
   margin: 20px 25px;
+  color: #ff9a00;
   font-weight: 600;
   text-decoration: none;
   transition: background-color 0.2s;
@@ -55,7 +56,7 @@ code {
 }
 
 .menu a:hover, .menu a:active {
-  color: #fefecc;
+  color: #3ec1d3;
 }
 
 .content {
@@ -115,7 +116,7 @@ code {
 .user-account {
   float: right;
   width: 120px;
-  margin: 15px 60px;
+  margin: 12px;
 }
 /* -------------- Login Style ------------------ */
 .login-container {
@@ -150,7 +151,7 @@ code {
 }
 
 .item-infinite-container {
-  height: 462px;
+  height: 390px;
   padding: 0 24px;
   overflow: auto;
   border-radius: 10px;
@@ -163,8 +164,9 @@ code {
 
 }
 .item-total-info{
-  padding: 8px;
+  padding: 0px;
   margin-top: 60px;
+  background-color: #ff9a00;
 }
 
 .spinner {
@@ -173,13 +175,35 @@ code {
   text-align: center;
   border-radius: 4px;
 }
-
+.print-list .ant-list-item-meta-title{
+  color: black;
+}
 /* Print Bill Style */
 .print-kot-bill {
   width: 300px;
   margin: auto;
   padding: 20px;
+  font-family: 'Arial, Helvetica, sans-serif';
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
 }
+.print-kot-bill h3{
+  padding: 10px;
+  font-family: 'Arial, Helvetica, sans-serif';
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  color: #000 !important;
+}
+
+.print-list li{
+  font-family: 'Arial, Helvetica, sans-serif';
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+}
+
 .total-ul{
   list-style-type: none;
   margin: 0;

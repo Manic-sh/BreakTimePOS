@@ -46,11 +46,11 @@ export default class MyNavbar extends React.Component {
        <img src={Logo} alt="BreakTime" />
         {currentUsername ? (
           <div className="user-account">
-            <Space wrap>
+            <Space wrap></Space>
               <Dropdown.Button overlay={menu} placement="bottomCenter" icon={<UserOutlined />}>
               {currentUsername}
               </Dropdown.Button>
-            </Space>
+        
           </div>
         ) : (
           <>

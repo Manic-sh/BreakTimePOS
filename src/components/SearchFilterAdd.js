@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Select,  Space, InputNumber, Button, Form } from 'antd';
+import { Select, Space, InputNumber, Button, AutoComplete } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import {MENU_ENDPOINT} from "../helpers/endpoints";
 import {fetchData} from "../helpers/fetch-common.js";
@@ -12,9 +12,11 @@ export default class SearchFilterAdd extends React.Component {
 
     constructor(props) {
         super(props);
+        this.autoRef = React.createRef();
         this.state = {
             products: [],
             value: undefined,
+            manu_id: undefined,
             qty: undefined,
             doneLoading: false,
         };
@@ -25,87 +27,99 @@ export default class SearchFilterAdd extends React.Component {
         order_data: PropTypes.object,
     };
 
-    getProducts(endpoint){
+    getProducts(){
         const thisComp = this;
-        fetchData(endpoint, thisComp, 'products')
+        fetchData(MENU_ENDPOINT, thisComp, 'products')
     };
 
-    search = async val => {
-        const thisComp = this;
-        thisComp.setState({ loading: true });
-        fetchData(MENU_ENDPOINT, thisComp, 'products')
-        const products = thisComp.products;
-    
-        this.setState({ products, loading: false });
-      };
-
-    handleSearch = value => {
+    handleSearch = async (value, option) => {
         if (value) {
             fetch(value, products => this.setState({ products }));
-          } else {
-            this.setState({ products: [] });
         }
     };
-    
-    handleChange = value => {
-       this.setState({ value });
+
+    onSelect = (value, option) => {
+            this.setState({
+                menu_id: option.key
+            });
     };
 
+    handleChange = (value) => {
+        this.setState({value});
+        if(this.state.menu_id){
+            this.setState({menu_id:''});
+        }
+     };
+ 
     handleChangeQty = qty =>  {
-        this.setState({ qty });
+         this.setState({ qty });
     };
 
-    handleProduct= () => {
-        console.log('Menu ID');
-        this.props.handleAddOrEditProduct(this.value);
-    };
-    componentDidMount(){
-        const endpoint = MENU_ENDPOINT;
-        this.getProducts(endpoint);
-    };
-
-    onFinish = (values) => {
-        if(!values.qty){
-            values.qty = 1;
+    async addProduct(){
+        if(this.state.menu_id){
+            if(this.state.qty){
+                this.props.handleAddOrEditProduct(this.state.menu_id, this.state.qty);
+            }
+            else{
+                this.props.handleAddOrEditProduct(this.state.menu_id, 1);
+            }   
+           this.setState({value: '', menu_id: ''})
         }
-        this.props.handleAddOrEditProduct(values.menu_id, values.qty);
+    }
+    onFinish = (values) => {
+        this.addProduct();
+        this.autoRef.current.focus();
     };
+    handleEnterPress = (value) => {
+        this.addProduct();
+        this.autoRef.current.focus();
+    }
 
+    onKeyDown = (e) => {
+        if(e.keyCode == 13){
+            this.addProduct();
+        }else if(e.keyCode == 27){
+            this.setState({
+                value: '',
+                menu_id:'',
+            })
+        }else{
+            return;
+        }
+    }
+    componentDidMount(){
+        this.getProducts();
+    };
     render() {
-        const options = this.state.products.map(d => <Option key={d.id}><Space><span>{d.title}</span><span>{d.tag_value}</span></Space></Option>);
-
+        const options = this.state.products.map(d => <Option key={d.id} value={d.title}><Space><span>{d.title}</span><span>{d.tag_value}</span></Space></Option>);
         return (   
             <Space direction="horizontal">
-                <Form
-                    name="customized_form_controls"
-                    layout="inline"
-                    className="ant-advanced-search-form"
-                    onFinish={this.onFinish}
-                >
-                <Form.Item name="menu_id" >
-                    <Select
-                        showSearch
-                        optionLabelProp="children"
-                        placeholder="Search Menu..."
-                        style={{width: 220}}
-                        onSearch={this.handleSearch}
-                        onChange={this.handleChange}
-                        filterOption={true}
-                        notFoundContent={null}
-                        optionFilterProp="children"
-                    >
-                        {options}
-                    </Select>
-                </Form.Item>
-                <Form.Item name="qty">
-                    <InputNumber min={1} max={99} value={1} defaultValue={1} onChange={this.handleChangeQty} />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit"  icon={<PlusOutlined />}>
+                    <div onKeyDown={this.onKeyDown}>
+                        <AutoComplete
+                            allowClear={true}
+                            autoFocus={true}
+                            backfill={true}
+                            dropdownMatchSelectWidth={252}
+                            style={{
+                                width: 260,
+                            }}
+                            onSelect={this.onSelect}
+                            onSearch={this.handleSearch}
+                            filterOption={(inputValue, option) =>
+                                option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                            }
+                            onChange={this.handleChange}
+                            value={this.state.value}
+                            ref={this.autoRef} 
+
+                        >
+                            {options}
+                        </AutoComplete>
+                    </div>    
+                    <InputNumber min={1} max={99} defaultValue={1} onChange={this.handleChangeQty} onPressEnter={this.handleEnterPress} />
+                    <Button type="primary" htmlType="submit" onClick={this.onFinish}  icon={<PlusOutlined />}>
                         Add
                     </Button>
-                </Form.Item>
-               </Form> 
             </Space>
         );
     }

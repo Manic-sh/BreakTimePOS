@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactToPrint from 'react-to-print';
-import { List, Button, Modal, Divider } from 'antd';
+import { List, Button, Modal } from 'antd';
 
 import PrintKOT from './PrintKot.js';
 
@@ -46,18 +46,17 @@ export default class PrintModel extends React.Component {
                 >
                     <div ref={el => (this.componentRef = el)} >
                         <div className="print-kot-bill">
-                            <Divider>BreakTime IN</Divider>
+                            <h3>BreakTime IN</h3>
                             <h5 style={{textAlign:'center', marginTop: -20}}>CIMS Hospital - Ahemdabad</h5>
                             <h4>Bill Number: {order_data.id} </h4>
                             <h4>Order Number: {order_data.title} </h4>
                             <h4>Date: {order_data.tag_timestamp} </h4>
                             <h4>Kot Number: {order_data.tag_kot}</h4>
                             <hr />
-                            <p>
-                                Items
-                                    </p>
+                            <span className="title-span">Items</span> <span className="title-span"> Qty</span> <span>Amt</span>
                             <hr />
                             <List
+                                className="print-list"
                                 dataSource={order_items}
                                 renderItem={item => (
                                     <PrintKOT

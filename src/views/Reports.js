@@ -121,10 +121,10 @@ class Report extends React.Component {
                 <Menu.Item key="3" icon={<DownloadOutlined />}>
                     <CSVLink data={monthly_orders}> Monthly </CSVLink>
                 </Menu.Item>
-                <Menu.Item key="3" icon={<DownloadOutlined />}>
+                <Menu.Item key="4" icon={<DownloadOutlined />}>
                     <CSVLink data={yearly_orders}> Yearly </CSVLink>
                 </Menu.Item>
-                <Menu.Item key="4" icon={<DownloadOutlined />}>
+                <Menu.Item key="5" icon={<DownloadOutlined />}>
                     <CSVLink data={orders}> All </CSVLink>
                 </Menu.Item>
             </Menu>
@@ -137,7 +137,7 @@ class Report extends React.Component {
                 title="Back"
                 subTitle="Break Time Home"
                 extra={[
-                    <Dropdown.Button overlay={menu} icon={<DownloadOutlined />}>
+                    <Dropdown.Button key="1" overlay={menu} icon={<DownloadOutlined />}>
                         Download
                     </Dropdown.Button>
                 ]}
@@ -173,7 +173,6 @@ class Report extends React.Component {
                         </TabPane>
 
                     </Tabs>
-
                 }
             >
                 <Content>
@@ -184,6 +183,5 @@ class Report extends React.Component {
             </PageHeader>
         )
     }
-
 }
 export default withRouter(Report);

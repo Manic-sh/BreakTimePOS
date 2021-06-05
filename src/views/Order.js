@@ -130,7 +130,7 @@ class Order extends React.Component {
 
                     </Content>
 
-                    <Sider width={500} className="site-layout-background" style={{margin:10}}>
+                    <Sider width={500} className="site-layout-background" style={{margin:10, height: 740}}>
                         <SideBar
                             order_data={this.state.order_data}
                             order_items={this.state.order_items}

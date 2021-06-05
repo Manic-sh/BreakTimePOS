@@ -40,7 +40,6 @@ export default class ProductGrid extends React.Component {
     handleSelectedCategories = (categories_list) => {
         if (categories_list) {
             const endpoint = MENU_ENDPOINT + '?category=' + categories_list;
-            console.log(endpoint);
             this.getProducts(endpoint)
         }
     };
@@ -71,7 +70,7 @@ export default class ProductGrid extends React.Component {
                     <InfiniteScroll
                         dataLength={this.state.products.length}
                         loader={<h4>Loading...</h4>}
-                        height={470}
+                        height={550}
                     >   
                         <MenuCard
                             products={this.state.products}

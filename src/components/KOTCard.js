@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { EditOutlined, CloseOutlined, PrinterOutlined } from '@ant-design/icons';
-import { Button, Col, Card, message } from 'antd'
+import { Button, Card, message } from 'antd'
 import { KOT_DETAIL_ENDPOINT, ORDER_ENDPOINT } from '../helpers/endpoints.js';
 import axiosInstance from '../helpers/axios-service';
 

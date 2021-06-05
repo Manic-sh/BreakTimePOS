@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button, Card, Row, Col } from 'antd';
+import { Button, Card, Row } from 'antd';
 import KOTCard from '../components/KOTCard.js';
 import { fetchData } from '../helpers/fetch-common.js'
 import { KOT_ENDPOINT, ORDERS_ENDPOINT } from '../helpers/endpoints.js';

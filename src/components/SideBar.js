@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-import { List, Card, Button, Space, Descriptions } from 'antd';
+import { Row, Col, List, Card, Button, Space } from 'antd';
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -29,7 +29,6 @@ export default class SideBar extends React.Component {
         handleAddOrEditProduct: PropTypes.func,
         handleBack: PropTypes.func,
         order_items: PropTypes.array,
-        order_data: PropTypes.object,
         changeQty: PropTypes.func.isRequired
     };
 
@@ -93,10 +92,12 @@ export default class SideBar extends React.Component {
                         </InfiniteScroll>
                     </div>
                     <Card className="item-total-info">
-                        <Descriptions size="small" bordered>
-                            <Descriptions.Item label="KOT">{order_data.tag_kot}</Descriptions.Item>
-                            <Descriptions.Item label="Total">{order_data.tag_value}</Descriptions.Item>
-                        </Descriptions>
+                        <Row>
+                            <Col span={6}>KOT:</Col>
+                            <Col span={6}>{order_data.tag_kot}</Col>
+                            <Col span={6}>Total:</Col>
+                            <Col span={6}>{order_data.tag_value}</Col>
+                        </Row>
                     </Card>
                     <Card style={{marginTop: 20}}>
                         <Space size={[10, 8]} wrap>
@@ -110,7 +111,7 @@ export default class SideBar extends React.Component {
                                 order_items={this.props.order_items} 
                                 handleCloseKOT={this.handleCloseKOT}                    
                             />                    
-                            <Button style={{ width: 130 }} type="primary" onClick={this.handleBack} danger>Back </Button>
+                            <Button style={{ width: 140 }} type="primary" onClick={this.handleBack} danger>Back </Button>
                         </Space>
                     </Card>
               

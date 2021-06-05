@@ -76,7 +76,7 @@ class ReportGrid extends React.Component{
             highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
             searchWords={[this.state.searchText]}
             autoEscape
-            textToHighlight={text ? text.toString() : ''}
+            textToHighlight={( text ? text.toString() : '')}
           />
         ) : (
           text
@@ -128,6 +128,7 @@ class ReportGrid extends React.Component{
             {
                 title: 'Value',
                 dataIndex: 'tag_value',
+                key: 'tag_value',
             },
             {
               title: 'Action',

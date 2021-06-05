@@ -26,7 +26,7 @@ export function fetchData(endpoint, thisComp, state, doneLoading) {
         });
 }
 
-export async function postQtyChange(action, id, thisComp) {
+export function postQtyChange(action, id, thisComp) {
     let item;
     let data;
     const endpoint = ORDER_ITEM_ENDPOINT + `${id}/`;
@@ -97,7 +97,7 @@ export async function postQtyChange(action, id, thisComp) {
 }
 
 
-export function addOrEditProduct(order_id, menu_id, quantity, thisComp) {
+export async function addOrEditProduct(order_id, menu_id, quantity, thisComp) {
     const endpoint = ORDER_ITEMS_ENDPOINT + `?menu_related=${menu_id}&order_related=${order_id}`;
     if(!quantity){
         quantity = 1;
