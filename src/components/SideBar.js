@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import ReactToPrint from 'react-to-print';
 
 import { Row, Col, List, Card, Button, Space } from 'antd';
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -8,7 +8,9 @@ import { PlusOutlined, MinusOutlined, DeleteOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SearchFilterAdd from '../components/SearchFilterAdd.js';
 
-import PrintModel from './PrintModel.js';
+import PrintBill from './PrintBill.js';
+
+
 
 const ButtonGroup = Button.Group;
 
@@ -17,8 +19,6 @@ export default class SideBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalPrintKot: false,
-            show: false,
             loading: false,
             action: "",
         }
@@ -32,10 +32,14 @@ export default class SideBar extends React.Component {
         changeQty: PropTypes.func.isRequired
     };
 
-    handleCloseKOT = (action) => {
-        this.props.handleProductActions(action)
+    handleCloseKOT = () => {
+        this.props.handleProductActions("CLOSE")
+        console.log("Closed..")
     };
-
+    handleCloseOrder = () => {
+        this.props.handleProductActions("SETTLE")
+        console.log("CLOSE ORDER..")
+    };
     handleBack = () => {
         this.props.handleProductActions('BACK')
     };
@@ -52,69 +56,78 @@ export default class SideBar extends React.Component {
             loading: true,
         });
     };
-    setmodalPrintKot(modalPrintKot) {
-        this.setState({ modalPrintKot });
+    printWindow = () => {
+        console.log("Print Window")
     }
-
-    showModal = (show, action) => {
-        this.setState({ show: show, action: action }); 
-    }
-    
     render() {
         const { order_items } = this.props;
         const { order_data } = this.props;
         return (
             <div>
-                    <Card>
-                        <SearchFilterAdd
-                                handleAddOrEditProduct={this.handleAddOrEditProduct}
-                                order_data={order_data}
-                        />
-                    </Card>
-                    <div className="item-infinite-container">
-                        <InfiniteScroll
-                            initialLoad={false}
-                            dataLength={order_items.length}
-                            pageStart={0}
-                            loadMore={this.handleInfiniteOnLoad}
-                            useWindow={false}
+                <Card>
+                    <SearchFilterAdd
+                        handleAddOrEditProduct={this.handleAddOrEditProduct}
+                        order_data={order_data}
+                    />
+                </Card>
+                <div className="item-infinite-container">
+                    <InfiniteScroll
+                        initialLoad={false}
+                        dataLength={order_items.length}
+                        pageStart={0}
+                        loadMore={this.handleInfiniteOnLoad}
+                        useWindow={false}
+                    >
+                        <List
+                            dataSource={order_items}
+                            renderItem={item => (
+                                <OrderItem
+                                    item={item}
+                                    changeQty={this.changeQty}
+                                />
+                            )}
                         >
-                            <List
-                                dataSource={order_items}
-                                renderItem={item => (
-                                    <OrderItem
-                                        item={item}
-                                        changeQty={this.changeQty}
-                                    />
+                        </List>
+                    </InfiniteScroll>
+                </div>
+                <Card className="item-total-info">
+                    <Row>
+                        <Col span={6}>KOT:</Col>
+                        <Col span={6}>{order_data.tag_kot}</Col>
+                        <Col span={6}>Total:</Col>
+                        <Col span={6}>{order_data.tag_value}</Col>
+                    </Row>
+                </Card>
+                <Card style={{ marginTop: 20 }}>
+                    <div>
+                        <Space wrap>
+                            <ReactToPrint
+                                trigger={() => (
+                                    <Button style={{ width: 150 }} type="primary">Print KOT</Button>
                                 )}
-                            >
-                            </List>
-                        </InfiniteScroll>
-                    </div>
-                    <Card className="item-total-info">
-                        <Row>
-                            <Col span={6}>KOT:</Col>
-                            <Col span={6}>{order_data.tag_kot}</Col>
-                            <Col span={6}>Total:</Col>
-                            <Col span={6}>{order_data.tag_value}</Col>
-                        </Row>
-                    </Card>
-                    <Card style={{marginTop: 20}}>
-                        <Space size={[10, 8]} wrap>
-                            <Button style={{ width: 160 }} type="primary" onClick={() => this.showModal(true, "CLOSE")}>Print KOT</Button>
-                            <Button style={{ width: 130 }} type="primary" onClick={() => this.showModal(true, "PRINT")}>Print Bill</Button>
-                            <PrintModel 
-                                show={this.state.show}   
-                                action={this.state.action} 
-                                showModal={this.showModal} 
-                                order_data={this.props.order_data} 
-                                order_items={this.props.order_items} 
-                                handleCloseKOT={this.handleCloseKOT}                    
-                            />                    
-                            <Button style={{ width: 140 }} type="primary" onClick={this.handleBack} danger>Back </Button>
+                                content={() => this.componentRef}
+                                onAfterPrint={this.handleCloseKOT}
+                            />
+                            <ReactToPrint
+                                trigger={() => (
+                                    <Button style={{ width: 150 }} type="primary">SETTLE</Button>
+                                )}
+                                content={() => this.componentRef}
+                                onAfterPrint={this.handleCloseOrder}
+                                removeAfterPrint
+                                
+                            />
+                            <Button style={{ width: 120 }} type="primary" onClick={this.handleBack} danger>Back </Button>
+                            <div style={{ overflow: 'hidden', height: 0 }}>
+                                <PrintBill
+                                    order_data={order_data}
+                                    order_items={order_items}
+                                    ref={el => (this.componentRef = el)}
+                                />
+                            </div>
                         </Space>
-                    </Card>
-              
+                    </div>
+                </Card>
             </div>
         )
     }

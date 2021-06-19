@@ -4,6 +4,23 @@ import { List, Button, Modal } from 'antd';
 
 import PrintKOT from './PrintKot.js';
 
+/*
+    setmodalPrintKot(modalPrintKot) {
+        this.setState({ modalPrintKot });
+    }
+
+    showModal = (show, action) => {
+        this.setState({ show: show, action: action }); 
+    }
+                            <PrintModel
+                                show={this.state.show}
+                                action={this.state.action}
+                                showModal={this.showModal}
+                                order_data={this.props.order_data}
+                                order_items={this.props.order_items}
+                                handleCloseKOT={this.handleCloseKOT}
+                            />
+                            */
 
 export default class PrintModel extends React.Component {
     handleClose = (action) => {
@@ -16,7 +33,6 @@ export default class PrintModel extends React.Component {
         const { order_items } = this.props;
         const { order_data } = this.props;
         const { action } = this.props;
-
         if (!this.props.show) {
             return null;
         } else {

@@ -52,7 +52,8 @@ export default class KOTCard extends React.Component {
                             <h5>KOT No: {kot.id}</h5>
                             <h5 as="h7">Total: {kot.tag_value}</h5>
                             <Link to={{
-                                pathname: `/order/${kot.active_order_id}/`
+                                pathname: `/order/${kot.active_order_id}/`,
+                                state: {kot}
                             }}>
                                 <Button type='primary' size="small" icon={<EditOutlined />}>Details {kot.active_order_id} </Button>
                             </Link>

@@ -1,14 +1,21 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,800');
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,800");
 body {
   margin: 0;
-  font-family: 'Nunito Sans', 'Open Sans', 'Roboto', sans-serif;
+  font-family: "Nunito Sans", "Open Sans", "Roboto", sans-serif, "Courier New",
+    monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+@media print {
+  .pos-dashboard {
+    display: none;
+  }
 }
 /* Landing Page CSS */
 .page {
@@ -17,7 +24,7 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Nunito Sans', 'Roboto', sans-serif;
+  font-family: "Courier New", "Courier", "Roboto", sans-serif;
 }
 
 .card {
@@ -41,7 +48,7 @@ code {
   width: 100%;
   height: 10%;
 }
-.menu-card{
+.menu-card {
   border: none;
 }
 .menu a {
@@ -55,7 +62,8 @@ code {
   transition: color 0.2s;
 }
 
-.menu a:hover, .menu a:active {
+.menu a:hover,
+.menu a:active {
   color: #3ec1d3;
 }
 
@@ -68,12 +76,12 @@ code {
   justify-content: center;
 }
 
-.content .image{
+.content .image {
   text-align: center;
 }
 .content .text {
   margin-bottom: 50px;
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: "Nunito Sans", sans-serif;
 }
 
 .text h1 {
@@ -95,7 +103,8 @@ code {
   padding: 10px 20px;
 }
 
-.text a:hover, .text a:active {
+.text a:hover,
+.text a:active {
   background-color: rgba(104, 121, 128, 0.3);
 }
 
@@ -139,11 +148,11 @@ code {
   padding: 77px 55px 33px;
   text-align: center;
 }
-.login-form{
+.login-form {
   margin-top: 80px !important;
-} 
+}
 
-.new-order-card{
+.new-order-card {
   margin-top: 100px;
 }
 .new-order-card Button {
@@ -151,7 +160,7 @@ code {
 }
 
 .item-infinite-container {
-  height: 390px;
+  height: 445px;
   padding: 0 24px;
   overflow: auto;
   border-radius: 10px;
@@ -161,9 +170,8 @@ code {
   bottom: 40px;
   width: 100%;
   text-align: center;
-
 }
-.item-total-info{
+.item-total-info {
   padding: 0px;
   margin-top: 60px;
   background-color: #ff9a00;
@@ -175,7 +183,7 @@ code {
   text-align: center;
   border-radius: 4px;
 }
-.print-list .ant-list-item-meta-title{
+.print-list .ant-list-item-meta-title {
   color: black;
 }
 /* Print Bill Style */
@@ -183,31 +191,43 @@ code {
   width: 300px;
   margin: auto;
   padding: 20px;
-  font-family: 'Arial, Helvetica, sans-serif';
-  font-size: 14px;
-  font-weight: 400;
-  color: #000;
-}
-.print-kot-bill h3{
-  padding: 10px;
-  font-family: 'Arial, Helvetica, sans-serif';
-  font-size: 14px;
-  font-weight: 400;
-  text-align: center;
+  font-family: "Courier New", monospace;
+  font-weight: bold !important;
   color: #000 !important;
 }
-
-.print-list li{
-  font-family: 'Arial, Helvetica, sans-serif';
-  font-size: 14px;
-  font-weight: 400;
-  color: #000;
+.print-h {
+  text-align: center;
+  color: #000 !important;
+  font-weight: bold;
 }
-
-.total-ul{
+.print-o {
+  margin: 0;
+  color: #000 !important;
+  font-weight: bold;
+}
+.print-i-title {
+  margin-right: 75px;
+  color: #000 !important;
+  font-weight: bold;
+}
+.print-item {
+  color: #000 !important;
+  font-weight: bold;
+}
+.print-item td {
+  width: 33.3%;
+}
+.print-item td:nth-child(2) {
+  text-align: center;
+}
+.print-item td:last-child {
+  text-align: right;
+}
+.total-ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  font-weight: bold;
 }
 
 .total-ul li {
@@ -215,29 +235,29 @@ code {
 }
 
 .print-kot-bill hr {
-  border:none;
-  border-top:1px dashed #000;
+  border: none;
+  border-top: 1px dashed #000;
 }
-.total-ul .total-li{
+.total-ul .total-li {
   float: right;
 }
 .login-form-card {
   padding: 40px 40px;
 }
 
-.brkt-hero{
+.brkt-hero {
   text-align: center;
   margin: 220px auto;
 }
-.brkt-hero Image{
+.brkt-hero Image {
   border-radius: 15px;
 }
 
-.category-container-card .ant-card-body{
+.category-container-card .ant-card-body {
   padding: 0 !important;
 }
 
-.footer{
+.footer {
   text-align: center;
   margin-top: 1rem;
   padding: 0.5rem !important;
